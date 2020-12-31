@@ -11,9 +11,10 @@ class CategoryItem extends StatelessWidget {
     return InkWell(
       splashColor: Colors.deepPurple,
       onTap: () {
-        Navigator.of(context).push(
-          MaterialPageRoute(builder: (context) => FoodsPage())
-        );
+        /*Navigator.of(context).push(
+          MaterialPageRoute(builder: (context) => FoodsPage(category: this.category))
+        );*/
+        Navigator.pushNamed(context, FoodsPage.routeName, arguments: {'category': category});
       },
       child: Container(
         child: Column(
