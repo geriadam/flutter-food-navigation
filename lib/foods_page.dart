@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_food_navigation/detail_food_page.dart';
 import 'package:flutter_food_navigation/fake_data.dart';
 import 'package:flutter_food_navigation/models/Category.dart';
 import 'package:flutter_food_navigation/models/Food.dart';
@@ -17,49 +18,60 @@ class FoodsPage extends StatelessWidget {
       ),
       body: Center(
         child: Center(
-          child: ListView.builder(
+          child: foods.length > 0 ? ListView.builder(
               itemCount: foods.length,
               itemBuilder: (context, index) {
                 Food food = foods[index];
-                print(food.urlImage);
-                return Stack(
-                  children: <Widget>[
-                    Container(
-                      padding: EdgeInsets.all(20),
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(10),
-                        clipBehavior: Clip.hardEdge,
-                        child: Center(
-                          child: FadeInImage.assetNetwork(
-                              placeholder: 'assets/images/loading.gif',
-                              image: food.urlImage
+                return InkWell(
+                  onTap: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                          builder: (context) => DetailFoodPage(food: food)
+                      )
+                    );
+                  },
+                  child: Stack(
+                    children: <Widget>[
+                      Container(
+                        padding: EdgeInsets.all(20),
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(10),
+                          clipBehavior: Clip.hardEdge,
+                          child: Center(
+                            child: FadeInImage.assetNetwork(
+                                placeholder: 'assets/images/loading.gif',
+                                image: food.urlImage
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                    Positioned(
-                        top: 30,
-                        left: 30,
-                        child: Container(
-                          padding: EdgeInsets.all(5),
-                          decoration: BoxDecoration(
-                            color: Colors.black45,
-                            borderRadius: BorderRadius.circular(10),
-                            border: Border.all(color: Colors.white, width: 2)
-                          ),
-                          child: Row(
-                            children: <Widget>[
-                              Icon(Icons.timer, color: Colors.white, size: 25),
-                              Text('${food.duration.inMinutes} minutes',
-                                style: TextStyle(fontSize: 22, color: Colors.white),
-                              )
-                            ],
-                          ),
-                        )
-                    )
-                  ],
+                      Positioned(
+                          top: 30,
+                          left: 30,
+                          child: Container(
+                            padding: EdgeInsets.all(5),
+                            decoration: BoxDecoration(
+                                color: Colors.black45,
+                                borderRadius: BorderRadius.circular(10),
+                                border: Border.all(color: Colors.white, width: 2)
+                            ),
+                            child: Row(
+                              children: <Widget>[
+                                Icon(Icons.timer, color: Colors.white, size: 25),
+                                Text('${food.duration.inMinutes} minutes',
+                                  style: TextStyle(fontSize: 22, color: Colors.white),
+                                )
+                              ],
+                            ),
+                          )
+                      )
+                    ],
+                  ),
                 );
               }
+          ) :
+          Text('No Food Found',
+            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
           ),
         ),
       ),
